@@ -1,0 +1,24 @@
+
+FW GUI:
+gcloud compute --project=prod-gcp-2026 firewall-rules create my-first-gui-fw --description="port 22" --direction=INGRESS --priority=1000 --network=cli-custom-vpc --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0
+
+
+gcloud compute --project=prod-gcp-2026 firewall-rules create my-first-gui-fw --description="this is to open port 22" --direction=INGRESS --priority=1000 --network=cli-custom-vpc --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0
+
+
+
+NW tags:
+gcloud compute --project=prod-gcp-2026 firewall-rules create fw-nwtags-inst1c-inst2 --description="deny and allow" --direction=INGRESS --priority=1000 --network=cli-custom-vpc --action=DENY --rules=PROTOCOL:PORT,... --source-tags=deny-ping --target-tags=allow-ping
+
+
+Deny-subnet-x_to_instance-3
+gcloud compute --project=prod-gcp-2026 firewall-rules create deny-inst-3 --description="deny ping for subnet-x instances" --direction=INGRESS --priority=1000 --network=cli-custom-vpc --action=DENY --rules=PROTOCOL:PORT,... --source-tags=subnet-x --target-tags=deny-subnet-x
+
+
+
+Delete:
+
+ gcloud compute networks subnets delete subnet-x --region=us-central1 --quiet
+ gcloud compute networks subnets delete subnet-y --region=us-central1 --quiet
+  
+ gcloud compute networks delete cli-custom-vpc --quiet

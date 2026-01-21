@@ -1,0 +1,190 @@
+V2/Google_Compute_Engine/17-LB_Global_External_infra.md
+
+Overview of Resources Created in this Script:
+This script configures the core infrastructure for a Google Cloud-based global load balancer. Here’s a summary of the resources created:
+
+1. VPC Network (i27-global-lb-vpc): 
+	A custom VPC network for isolating resources.
+
+2. Subnets:
+	us-central1 (10.0.0.0/24): Subnet in the us-central1 region.
+	asia-southeast1 (10.1.0.0/24): Subnet in the asia-southeast1 region.
+
+3. Firewall Rules:
+	Allows SSH (22), HTTP (80), and ICMP traffic from any source.
+	Allows traffic from Google’s health check IP ranges (130.211.0.0/22 and 35.191.0.0/16) to ensure successful health checks.
+
+4. Startup Script:
+	Defines a startup script for instances, installing NGINX and creating a customized webpage that displays the server hostname and IP.
+
+5. Instance Templates:
+	us-central1 Instance Template: Configures instances in the us-central1 region with startup scripts.
+	asia-southeast1 Instance Template: Configures instances in the asia-southeast1 region with startup scripts.
+
+6. Global Health Check (i27-global-lb-health-check): 
+	A health check configured on port 80 to monitor instance health.
+
+7. Managed Instance Groups:
+	us-central1 MIG: Deploys instances in us-central1 with specified zones and health checks.
+	asia-southeast1 MIG: Deploys instances in asia-southeast1 with specified zones and health checks.
+
+8. Named Ports: 
+	Configures named ports (http:80) for each managed instance group to allow HTTP traffic.
+
+9. Static Global IP Address (i27-global-lb-ip):
+	Reserves a global IP address to use with the load balancer.
+=======================================================================================================================================================================
+
+echo $PROJECT_ID
+gcloud config set project prod-gcp-2026
+PROJECT_ID=$(gcloud config get-value project)
+echo $PROJECT_ID
+
+
+VPC:
+gcloud compute networks create glb-vpc --subnet-mode=custom
+
+Subnets:
+gcloud compute networks subnets create glb-usa-subnet --region="us-central1" --range="10.1.0.0/16" --network="glb-vpc"
+gcloud compute networks subnets create glb-singapore-subnet --region="asia-southeast1" --range="10.2.0.0/16" --network="glb-vpc"
+
+
+FW:
+allow port 22,80,icmp:
+	gcloud compute firewall-rules create glb-allow-http-icmp --allow="tcp:80,tcp:22,icmp" --source-ranges="0.0.0.0/0" --network="glb-vpc"
+allow google health check ports:
+	gcloud compute firewall-rules create glb-google-healthchecks --allow="tcp" --source-ranges="130.211.0.0/22,35.191.0.0/16" --network="glb-vpc"
+
+
+startup script: create a folder where you run the below script
+	$ mkdir -p lb-global-external-infra
+	$ cd lb-global-external-infra
+	
+STARTUP_SCRIPT_CONTENT=$(cat <<EOF
+#!/bin/bash
+sudo apt update
+sudo apt install -y telnet
+sudo apt install -y nginx
+sudo systemctl enable nginx
+sudo chmod -R 755 /var/www/html
+HOSTNAME=\$(hostname)
+sudo echo "<!DOCTYPE html> <html> <head><style> body { font-family: Arial, sans-serif; color: #333333; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f2f2f2; } h1 { color: #005580; } p { font-size: 1.2em; color: #555555; } </style></head> <body> <div> <h1>Welcome to the Google Cloud Platform</h1> <p><strong style='color: #ff7500;'>Server Hostname:</strong> \${HOSTNAME}</p> <p><strong>Server IP Address:</strong> \$(hostname -I)</p> </div> </body></html>" | sudo tee /var/www/html/index.html
+EOF
+)
+
+echo "Creating startup script file..."
+echo "$STARTUP_SCRIPT_CONTENT" > startup-script.sh
+chmod +x startup-script.sh
+
+
+
+Instance Templates: Create Instance Templates for us-central1 and asia-southeast1
+Instance Template for us-central1: 
+gcloud compute instance-templates create glb-usa-instance-template --region="us-central1" --instance-template-region="us-central1" --machine-type="e2-micro" --network="glb-vpc" --subnet="glb-usa-subnet" --metadata-from-file startup-script="startup-script.sh"
+
+Instance Template for south-asia:
+gcloud compute instance-templates create glb-singapore-instance-template --region="asia-southeast1" --instance-template-region="asia-southeast1" --machine-type="e2-micro" --network="glb-vpc" --subnet="glb-singapore-subnet" --metadata-from-file startup-script="startup-script.sh"
+
+
+Global Health Check: 
+gcloud compute health-checks create http glb-healthcheck --global --port="80" --request-path="/"
+
+
+Managed Instance Groups:
+central:
+gcloud compute instance-groups managed create glb-usa-mig --base-instance-name="glb-usa-vm" --template=projects/$PROJECT_ID/regions/us-central1/instanceTemplates/glb-usa-instance-template --size=2 --zones="us-central1-b,us-central1-c" --health-check="glb-healthcheck" --initial-delay="300"
+
+gcloud compute instance-groups managed create glb-singapore-mig --base-instance-name="glb-singapore-vm" --template=projects/$PROJECT_ID/regions/asia-southeast1/instanceTemplates/glb-singapore-instance-template --size=2 --zones="asia-southeast1-a,asia-southeast1-b" --health-check="glb-healthcheck" --initial-delay="300"
+
+
+Named Ports:
+us-central:
+gcloud compute instance-groups managed set-named-ports glb-usa-mig --named-ports="http:80" --region="us-central1"
+gcloud compute instance-groups managed set-named-ports glb-singapore-mig --named-ports="http:80" --region="asia-southeast1" 
+
+
+Static Global IP Address:
+gcloud compute addresses create vijayfmw12-glb-ip --global
+
+
+Next Steps: 
+With the core infrastructure now configured, 
+proceed with setting up the load balancer, backend service, URL map, and forwarding rules directly in the Google Cloud Console. 
+This approach allows for a hands-on experience with load balancer configurations and helps ensure each component is correctly associated.
+
+
+LB Config:
+Type of LB: ALB (http/https)
+public facing or internal: public facing
+global or single region deployment: Best for global workloads
+LB Generation: Global external ALB
+Create LB: you are about to create an ALB. (1-> public facing, 2. global.)
+
+LB Creation: need to remember these 3 mandatory.
+Frontend -> Routings -> Backend
+
+Frontend:
+Routing:
+Backend:
+
+# Create a backend service with the health check
+gcloud compute backend-services create glb-backend-service --global --protocol="HTTP" --health-checks="glb-healthcheck" --port-name="http" --load-balancing-scheme="EXTERNAL_MANAGED" --locality-lb-policy="ROUND_ROBIN" --connection-draining-timeout="300" --session-affinity="NONE" --timeout="30"
+
+# Add the us-central1 instance group to the backend service
+gcloud compute backend-services add-backend glb-backend-service --global --instance-group=glb-usa-mig --instance-group-region=us-central1 
+
+# Add the asia-southeast1 instance group to the backend service
+gcloud compute backend-services add-backend glb-backend-service --global --instance-group=glb-singapore-mig --instance-group-region=asia-southeast1
+
+
+# Create a URL Map: Load Balancer Configuration
+gcloud compute url-maps create glb-url-map-alb --default-service=glb-backend-service 
+
+# Create a Target HTTP Proxy
+gcloud compute target-http-proxies create glb-http-proxy --url-map=glb-url-map-alb
+
+
+#  Create a Forwarding Rule
+gcloud compute forwarding-rules create glb-forwarding-rule --global --target-http-proxy=glb-http-proxy --address=vijayfmw12-glb-ip --ports=80
+
+
+# Get the static IP address
+STATIC_IP=$(gcloud compute addresses describe vijayfmw12-glb-ip --global --format="get(address)")
+
+echo "-------------------------------"
+echo "Script complete. Wait about 5 minutes for your load balancer to initialize, then access the frontend address in a new tab."
+echo -e "\nYour load balancer frontend IP address is: \033[1;32m$STATIC_IP\033[0m"
+echo "If you receive an error for the website, wait a few more minutes and try again."
+echo "-------------------------------"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

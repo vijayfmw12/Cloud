@@ -1,0 +1,42 @@
+Task: Create 
+
+-> 1-vpc, 2-subnets and 5-vms
+
+# Create a custom VPC
+gcloud compute networks create cli-dev-vpc --subnet-mode=custom
+echo "Network has been created successfully!!"
+
+# Create Subnet-MW in custom VPC
+gcloud compute networks subnets create subnet-mw --region=us-central1 --range=10.2.1.0/24 --network=cli-dev-vpc
+echo "Subnet-MW has been created successfully!!"
+
+# Create Subnet-DBA in custom VPC
+gcloud compute networks subnets create subnet-dba --region=us-central1 --range=10.5.1.0/24 --network=cli-dev-vpc
+echo "Subnet-DBA has been created successfully!!"
+
+#Instances
+# Create instance-1a in subnet-mw
+gcloud compute instances create instance-1a --zone=us-central1-a --subnet=subnet-mw --machine-type=e2-micro
+echo "Instance-1a has been created successfully!!"
+
+# Create instance-1b in subnet-mw
+gcloud compute instances create instance-1b --zone=us-central1-b --subnet=subnet-mw --machine-type=e2-micro --no-address
+echo "Instance-1b has been created successfully!!"
+
+# Create instance-1c in subnet-mw
+gcloud compute instances create instance-1c --zone=us-central1-c --subnet=subnet-mw --machine-type=e2-micro
+echo "Instance-1c has been created successfully!!"
+
+# Create instance-2 in subnet-dba
+gcloud compute instances create instance-2 --zone=us-central1-f  --subnet=subnet-dba --machine-type=e2-micro
+echo "Instance-2 has been created successfully!!"
+
+# Create instance-3 in subnet-dba
+gcloud compute instances create instance-3 --zone=us-central1-f  --subnet=subnet-dba --machine-type=e2-micro --no-address 
+echo "Instance-3 has been created successfully!!" 
+
+===============================================================
+
+Delete:
+
+gcloud compute instances delete instance-1a  instance-1b instance-1c instance-2 instance-3 --zone=us-central1-a --zone=us-central1-b --zone=us-central1-c --zone=us-central1-f --zone=us-central1-f --quiet
