@@ -1,0 +1,39 @@
+
+
+## Project 1 : Complete IAM 
+* Create a custom role
+* Custom role should be have group of permissions
+```yaml
+  - compute.instances.create 
+  - compute.acceleratorTypes.list
+  - compute.disks.create
+  - compute.disks.list
+  - compute.instances.create
+  - compute.instances.list
+  - compute.instances.setServiceAccount
+  - compute.machineTypes.list
+  - compute.networks.get
+  - compute.networks.list
+  - compute.projects.get
+  - compute.regions.list
+  - compute.subnetworks.get
+  - compute.subnetworks.list
+  - compute.subnetworks.use
+  - compute.subnetworks.useExternalIp
+  - compute.zones.list
+```
+* Assign this role to a user (binding should be happening)
+* this user i should call dynamically.
+
+## Project 2 : VPC peering
+* Create vpc1 > subent > firewall > vm1 
+* Crate vpc2 > subnet > firewall > vm2
+* Establish VPC peering with terraform 
+* Make sure vm1 communicates to vm2 
+
+
+## Project 3: GCE
+* Create a vm with custom config using variables
+* create a startup script, call it 
+* Create a static ip 
+* assign the static ip for the vm 

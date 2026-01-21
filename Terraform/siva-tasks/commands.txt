@@ -1,0 +1,24 @@
+
+
+C:\Users\vijay\AppData\Local\Google\Cloud SDK>gcloud auth application-default login
+
+authenticate in browser with gcp cloud mail id.
+
+
+C:\Users\vijay\AppData\Local\Google\Cloud SDK>gcloud config list
+[accessibility]
+screen_reader = True
+[compute]
+region = us-central1
+zone = us-central1-a
+[core]
+account = vijaytilak.ndg3@gmail.com
+disable_usage_reporting = False
+project = prod-gcp-2026
+
+Your active configuration is: [default]
+
+C:\Users\vijay\AppData\Local\Google\Cloud SDK>gcloud config set project prod-gcp-2026
+Updated property [core/project].
+
+C:\Users\vijay\AppData\Local\Google\Cloud SDK>
