@@ -1,0 +1,47 @@
+TF:
+
+-> Download TF binaries from hashcorp portal.
+
+-> extract it under c:/terraform folder.
+
+-> set environment variables in widows system properties.
+	c:/terrform
+
+provider:
+*********
+vi main.tf in 'visual studio' under terraform -> providers -> main.tf
+# i will give you my provider.
+provider "google" {
+ project = "prod-gcp-2026"
+ region = "us-central1"
+}
+
+-> Launch cmd directory from c:/terrform
+-> > terraform init 	// google provider will be loaded.
+-> > terraform --version
+
+-> Launch "Google Cloud SDK Shell" to authenticate GCP console.
+C:\Users\vijay\AppData\Local\Google\Cloud SDK>
+C:\Users\vijay\AppData\Local\Google\Cloud SDK>gcloud auth application-default login
+
+-> will provide console URL for authentication.
+-> copy this URL, paste it in browser and login with credentials.
+-> Credentials saved to file: [C:\Users\vijay\AppData\Roaming\gcloud\application_default_credentials.json]
+		These credentials will be used by any library that requests Application Default Credentials (ADC).
+
+		Quota project "prod-gcp-2026" was added to ADC which can be used by Google client libraries for billing and quota. Note that some services may still bill the project owning the resource.
+
+-> Set project_id:
+C:\Users\vijay\AppData\Local\Google\Cloud SDK>gcloud config set project prod-gcp-2026
+Updated property [core/project].
+
+-> validate the project_id while executing any gcloud command.
+C:\Users\vijay\AppData\Local\Google\Cloud SDK>gcloud compute instances list
+Listed 0 items. (zero instances are running in console)
+
+
+# create a custom vpc
+resource "google_compute_network" "vpc1" {
+name = "custom-vpc-tf"
+auto_create_subnetworks = false
+}
