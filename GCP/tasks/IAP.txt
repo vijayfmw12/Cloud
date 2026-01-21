@@ -1,0 +1,87 @@
+IAP:
+
+Scenario: Launching a VM Without public IP address.
+
+
+#1 Create a VPC in custom mode:
+gcloud compute networks create secure-vpc --subnet-mode=custom
+
+#2 Create subnet with range:
+gcloud compute networks subnets create subnet-a --region="us-central1" --range="10.7.0.0/16" --network="secure-vpc"
+
+
+#3 Create a VM:
+vmname:
+vmregion
+machine type:
+os and storage: ubuntu
+image type: 
+network interface:
+network name
+subnet name:
+external ipv4 address: none.
+Create
+
+#4 Check firewall rules name and network if they are available related to this.
+not available.
+
+#5 GCP have a concept called "IAP- Identity Aware Proxy".
+
+If any VM doesn't have public IP and it has only private IP then we need to connect this vm using "--tunnel-through-iap"
+
+it will establish a private tunnel in between the terminal and gcp cloud. then its try to connects to the vm.
+
+$ gcloud compute ssh --zone "us-central1-b" "vm-without-public-ip" --tunnel-through-iap --project "prod-gcp-2026"	
+
+it won't connect directly. 
+
+ex: if i need to connect a vm, then we need to open port-22 in general but we should not open here.
+
+Solution:
+navigate GCP console -> IAP (available in security section) -> enable-api -> ssh and tcp resources (tab) -> here we can see 'Error' for our vm.
+
+How can we connect this private IP ?
+go to "gcp iap firewall rules" page in official documentation. (search in google) -> "Use IAP for TCP forwarding page.
+
+#6 Create a firewall with IPrange given by google. https://docs.cloud.google.com/iap/docs/using-tcp-forwarding#gcloud_1
+
+
+gcloud compute firewall-rules create allow-ssh-ingress-from-iap \
+  --direction=INGRESS \
+  --action=allow \
+  --rules=tcp:22 \
+  --source-ranges=35.235.240.0/20
+
+
+output:
+vijaytilak_ndg3@cloudshell:~ (prod-gcp-2026)$ 
+gcloud compute firewall-rules create allow-ssh-ingress-from-iap --direction=INGRESS --action=allow --rules=tcp:22 --source-ranges=35.235.240.0/20 --network="secure-vpc"
+
+Creating firewall...working..Created [https://www.googleapis.com/compute/v1/projects/prod-gcp-2026/global/firewalls/allow-ssh-ingress-from-iap].                                             
+Creating firewall...done.                                                                                                                                                                    
+NAME: allow-ssh-ingress-from-iap
+NETWORK: secure-vpc
+DIRECTION: INGRESS
+PRIORITY: 1000
+ALLOW: tcp:22
+DENY: 
+DISABLED: False
+vijaytilak_ndg3@cloudshell:~ (prod-gcp-2026)$ 
+
+Navigate gcp console -> IAP (search) -> ssh and tcp resources (tab):
+us-central1-b -> 'vm-without-public-ip' -> Status: 'OK'
+
+
+#7 Now connect again using "tunnel through command"
+$ gcloud compute ssh --zone "us-central1-b" "vm-without-public-ip" --tunnel-through-iap --project "prod-gcp-2026"	
+
+#8 Try to update or install package in this terminal.
+issue: it wont install as it is trying to connect public level internet. as we connected with private ip, it wont connect to google.
+
+solution: we need 'cloud NAT' in this case. please refer below for this proof/understanding.
+
+https://docs.cloud.google.com/vpc/docs/vpc#internet_access_reqs
+
+
+
+

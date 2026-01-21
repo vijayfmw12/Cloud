@@ -1,0 +1,4 @@
+vijayfmw12.com	NS	pns71.cloudns.net	1h
+vijayfmw12.com  NS	pns72.cloudns.com	1h	
+vijayfmw12.com  NS      pns73.cloudns.net	1h	
+vijayfmw12.com  NS	pns74.cloudns.uk	1h
