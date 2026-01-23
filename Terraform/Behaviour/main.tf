@@ -1,20 +1,15 @@
-# Provider Block
+#Provider Block
 provider "google" {
 	project = "prod-gcp-2026"
 	region  = "us-central1"
 	}
-
-
-# Resource Block
-# Create a VPC
+#Create a VPC
 resource "google_compute_network" "vpc1" {
     name = "custom-vpc1"
     description = "vpc created from TF"
     auto_create_subnetworks = false
 }
-
-# Create a subnet
-# Requirement: subnet-name, region, cidr-range, network name
+#Create a subnet (Req: subnet-name, region, cidr-range, network name)
 resource "google_compute_subnetwork" "vpc1-subnet" {
     name = "subnet-x"
     region = "us-central1"
@@ -23,9 +18,7 @@ resource "google_compute_subnetwork" "vpc1-subnet" {
     # Calling implicit dependency
     network = google_compute_network.vpc1.id
 }
-
-# Create SSH Firewall
-#Req: fw-name, network, direction, allow/deny, priority, source ranges
+#Create SSH Firewall (Req: fw-name, network, direction, allow/deny, priority, source ranges)
  resource "google_compute_firewall" "tf_ssh" {
     name = "allow-ssh-tf"
     network = google_compute_network.vpc1.id
@@ -38,8 +31,7 @@ resource "google_compute_subnetwork" "vpc1-subnet" {
     source_ranges = ["0.0.0.0/0"]
     target_tags = ["ssh-nw-tag", "ssh-nw-tag-other"]
   }
-
-# Create HTTP firewall
+#Create HTTP firewall
 resource "google_compute_firewall" "tf_http" {
     name = "allow-http-tf"
     network = google_compute_network.vpc1.id
@@ -52,26 +44,23 @@ resource "google_compute_firewall" "tf_http" {
    source_ranges = ["0.0.0.0/0"]
    target_tags = ["webserver-nw-tag"]
    }
-
-# Create a VM
+#Create a VM
 resource "google_compute_instance" "tf_gce_vm" {
-# arguments
-name = "webserver"
-machine_type= "e2-micro"
-zone = "us-central1-a"
-  boot_disk {
+  name = "webserver"
+  machine_type= "e2-micro"
+  zone = "us-central1-a"
+    boot_disk {
       initialize_params {
 	    image = "debian-cloud/debian-12"
       }
-  }
-network_interface {
-	subnetwork = google_compute_subnetwork.vpc1-subnet.id
-	access_config {}
-}
+    }
+    network_interface {
+	  subnetwork = google_compute_subnetwork.vpc1-subnet.id
+	  access_config {}
+    }
   tags = [
     tolist(google_compute_firewall.tf_ssh.target_tags) [1],
     tolist(google_compute_firewall.tf_http.target_tags)[0],
     "new-tag"
   ]
-
 }
