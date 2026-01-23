@@ -73,6 +73,8 @@ network_interface {
 }
   tags = [
     tolist(google_compute_firewall.tf_ssh.target_tags) [1],
-    tolist(google_compute_firewall.tf_http.target_tags)[0]
+    tolist(google_compute_firewall.tf_http.target_tags)[0],
+    "new-tag"
   ]
+
 }
