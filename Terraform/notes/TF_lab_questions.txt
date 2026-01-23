@@ -1,1 +1,14 @@
 Terraform_Lab_Questions:
+
+
+vpc creation using terraform:
+Q) why we didn't give double quote to Boolean value ?
+Ans: 
+In Terraform (HCL), boolean values (true or false) are not enclosed in double quotes because they are considered primitive data types (keywords) rather than strings. Using true (unquoted) allows Terraform to parse them directly as boolean logic, whereas "true" (quoted) is treated strictly as a string literal, which may cause type mismatches. 
+
+
+
+Subnet creation using terraform:
+Q) Why we didn't give double quote to implicit value ?
+Ans:
+In Terraform, double quotes are omitted(remove) for implicit values (references) like aws_vpc.main.id because they are not literal strings, but expressions evaluated by Terraform to retrieve dynamic data from another resource. Quoting them would treat them as literal text rather than an active reference. 
