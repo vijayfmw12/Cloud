@@ -12,5 +12,6 @@ resource "google_compute_subnetwork" "vpc1-subnet" {
     name = "subnet-x"
     region = "us-central1"
     ip_cidr_range = "10.2.0.0/16"
+    # NW name hardcode
     network = "custom-vpc1"
     }
