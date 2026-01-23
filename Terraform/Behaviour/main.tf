@@ -41,7 +41,7 @@ resource "google_compute_subnetwork" "vpc1-subnet" {
   }
 
 # Create HTTP firewall
- resource "google_compute_firewall" "tf_http" {
+resource "google_compute_firewall" "tf_http" {
     name = "allow-http-tf"
     network = google_compute_network.vpc1.id
     direction = "INGRESS"
