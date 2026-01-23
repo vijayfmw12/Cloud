@@ -1,11 +1,7 @@
 *.class
 GCP/*.json
 # Terraform
-D:\Self-Preparations\GIT_Jan2026\Terraform\First-provider\.terraform
-D:\Self-Preparations\GIT_Jan2026\Terraform\First-provider\.terraform*
-# Terraform
 .terraform/
 *.tfstate
 *.tfstate.backup
 .terraform.lock.hcl
-
