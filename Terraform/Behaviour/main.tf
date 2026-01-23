@@ -13,7 +13,6 @@ resource "google_compute_network" "vpc1" {
     auto_create_subnetworks = false
 }
 
-
 # Create a subnet
 # Requirement: subnet-name, region, cidr-range, network name
 resource "google_compute_subnetwork" "vpc1-subnet" {
@@ -65,8 +64,6 @@ zone = "us-central1-a"
 	    image = "debian-cloud/debian-12"
       }
   }
-
-# Create a NW-interface
 network_interface {
 	subnetwork = google_compute_subnetwork.vpc1-subnet.id
 	access_config {}
