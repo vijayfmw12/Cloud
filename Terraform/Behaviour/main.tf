@@ -60,10 +60,10 @@ resource "google_compute_firewall" "tf_http" {
 #Create a VM
 resource "google_compute_instance" "tf_gce_vm" {
   name = "webserver"
-  # machine_type= "e2-micro"
-  machine_type= "e2-medium"
-  # zone = "us-central1-a"
-  zone = "us-central1-b"
+  machine_type= "e2-micro"
+  # machine_type= "e2-medium"
+  zone = "us-central1-a"
+  # zone = "us-central1-b"
     boot_disk {
       initialize_params {
 	    image = "debian-cloud/debian-12"
