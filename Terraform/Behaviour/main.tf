@@ -60,7 +60,8 @@ resource "google_compute_firewall" "tf_http" {
 #Create a VM
 resource "google_compute_instance" "tf_gce_vm" {
   name = "webserver"
-  machine_type= "e2-micro"
+  # machine_type= "e2-micro"
+  machine_type= "e2-medium"
   zone = "us-central1-a"
     boot_disk {
       initialize_params {
@@ -75,6 +76,7 @@ resource "google_compute_instance" "tf_gce_vm" {
     tolist(google_compute_firewall.tf_ssh.target_tags) [1],
     tolist(google_compute_firewall.tf_http.target_tags)[0],
     "new-tag",
-    "dba-tag"
+    "dba-tag",
+    "linux-tag"
   ]
 } 
