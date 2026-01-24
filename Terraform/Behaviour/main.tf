@@ -1,3 +1,16 @@
+terraform {
+# TF version
+	required_version = "~>1.14.3"
+
+#Provider Versions
+	required_providers {
+		google = {
+			source = "hashicorp/google"
+			version = "~>7.14.0"
+		}
+	}
+}
+
 #Provider Block
 provider "google" {
 	project = "prod-gcp-2026"
@@ -63,4 +76,4 @@ resource "google_compute_instance" "tf_gce_vm" {
     tolist(google_compute_firewall.tf_http.target_tags)[0],
     "new-tag"
   ]
-}
+} 

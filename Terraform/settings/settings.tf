@@ -1,5 +1,4 @@
 # TF Settings block
-
 terraform {
 # TF version
 	required_version = "~>1.14.3"
