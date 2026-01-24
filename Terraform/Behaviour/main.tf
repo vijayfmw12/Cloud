@@ -62,7 +62,8 @@ resource "google_compute_instance" "tf_gce_vm" {
   name = "webserver"
   # machine_type= "e2-micro"
   machine_type= "e2-medium"
-  zone = "us-central1-a"
+  # zone = "us-central1-a"
+  zone = "us-central1-b"
     boot_disk {
       initialize_params {
 	    image = "debian-cloud/debian-12"
@@ -72,6 +73,7 @@ resource "google_compute_instance" "tf_gce_vm" {
 	  subnetwork = google_compute_subnetwork.vpc1-subnet.id
 	  access_config {}
     }
+    allow_stopping_for_update = true
   tags = [
     tolist(google_compute_firewall.tf_ssh.target_tags) [1],
     tolist(google_compute_firewall.tf_http.target_tags)[0],
