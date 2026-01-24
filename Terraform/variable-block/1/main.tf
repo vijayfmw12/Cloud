@@ -8,14 +8,14 @@ resource "google_compute_instance" "mw-vm" {
 	machine_type = var.machine_type
 	zone = var.vm_zone
 
-boot_disk {
-	initialize_params {
-	image = "debian-cloud/debian-11"
+	boot_disk {
+		initialize_params {
+		image = "debian-cloud/debian-11"
+		}
 	}
-}
 
-network_interface {
-	network = "default"
-	access_config  {}
+	network_interface {
+		network = "default"
+		access_config  {}
   }
 }
