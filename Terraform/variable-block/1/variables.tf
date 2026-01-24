@@ -1,9 +1,8 @@
 variable "machine_type" {
-description = "Machine type user for the vm"
+description = "Machine type used for the vm"
 type = string
 default = "e2-medium"
 }
-
 
 variable "vm_zone" {
 description = "The zone in which vm should be created"
