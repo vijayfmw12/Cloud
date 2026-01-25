@@ -1,7 +1,6 @@
 variable "machine_type" {
 description = "Machine type used for the vm"
 type = string
-default = "e2-medium"
 }
 
 variable "vm_zone" {
