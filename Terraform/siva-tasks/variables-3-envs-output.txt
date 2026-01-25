@@ -1,0 +1,24 @@
+$ terraform apply -var-file=dev.tfvars  --auto-approve
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Output: 
+dev-vm	us-central1-b	10.128.0.43 (nic0)	136.115.3.19 (nic0)
+
+
+$ terraform apply -var-file=stage.tfvars  --auto-approve
+google_compute_instance.mw-vm: Refreshing state... [id=projects/prod-gcp-2026/zones/us-central1-b/instances/dev-vm]
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Output: 
+stage-vm us-central1-c	10.128.0.44 (nic0)	34.123.107.252 (nic0) 	
+
+
+$ terraform apply -var-file=prod.tfvars  --auto-approve
+google_compute_instance.mw-vm: Refreshing state... [id=projects/prod-gcp-2026/zones/us-central1-c/instances/stage-vm]
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Output: 
+prod-vm	us-central1-f	10.128.0.45 (nic0)	34.45.188.13 (nic0)
