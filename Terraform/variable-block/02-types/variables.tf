@@ -9,10 +9,10 @@ variable "region" {
   default     = "us-central1"
 }
 
-variable "zone" {
-  type        = string
-  default     = "us-central1-a"
-}
+# variable "zone" {
+#  type        = string
+#  default     = "us-central1-a"
+# }
 
 variable "vpc_name" {
   type        = string
@@ -29,15 +29,15 @@ variable "subnet_cidr" {
   default     = "10.4.0.0/16"
 }
 
-variable "vm_name" {
-  type        = string
-  default     = "var-type-webserver"
-}
+# variable "vm_name" {
+#  type        = string
+#  default     = "var-type-webserver"
+# }
 
-variable "machine_type" {
-  type        = string
-  default     = "e2-micro"
-}
+# variable "machine_type" {
+#  type        = string
+#  default     = "e2-micro"
+# }
 
 variable "ssh_priority" {
     type = number
@@ -75,11 +75,28 @@ variable "environment" {
     default = "dev"
 }
 
-variable "machine_types" {
-    type = map(string)
-    default = {
-      dev = "e2-small"
-      stage = "e2-micro" 
-      prod = "n2-standard-2"
-    }
+# variable "machine_types" {
+#    type = map(string)
+#    default = {
+#      dev = "e2-small"
+#      stage = "e2-micro" 
+#      prod = "n2-standard-2"
+#    }
+#}
+
+# Object
+variable "vm_configuration" {
+  type = Object({
+    name = string
+    zone = string
+    machine_type = string
+    tags = list(string)
+  }
+)
+default = {
+  name = "var-type-webserver"
+  machine_type = "e2-micro"
+  zone = "us-central1-a"
+  tags = ["tag1","tag2"]
+}
 }
