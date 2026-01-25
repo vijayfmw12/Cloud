@@ -68,6 +68,7 @@ metadata_startup_script = var.enable_startup_script ? file("${path.module}/start
     access_config {}
   }
 
-  tags = ["ssh-nw-tag", "ws-nw-tag"]
+  # tags = ["ssh-nw-tag", "ws-nw-tag"]
+  tags = var.vm_network_tags 
  }
 
