@@ -86,10 +86,10 @@ variable "environment" {
 
 # Object
 variable "vm_configuration" {
-  type = Object({
+  type = object({
     name = string
-    zone = string
     machine_type = string
+    zone = string
     tags = list(string)
   }
 )
