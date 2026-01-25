@@ -59,9 +59,9 @@ resource "google_compute_instance" "tf_gce_vm" {
 # bool value
 # metadata_startup_script = "echo hi > /test.txt
 # metadata_startup_script = file("startup.sh")
-# metadata_startup_script = file("$path.module}/startup.sh")
-metadata_startup_script = var.enable_startup_script ? file("$path.module}/startup.sh") : null 
-#file("$path.module}/startup.sh")
+# metadata_startup_script = file("${path.module}/startup.sh")
+metadata_startup_script = var.enable_startup_script ? file("${path.module}/startup.sh") : null 
+#file("${path.module}/startup.sh")
 
     network_interface {
     subnetwork = google_compute_subnetwork.tf_subnet.id
