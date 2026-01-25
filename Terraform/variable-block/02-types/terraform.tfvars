@@ -9,7 +9,7 @@ enable_startup_script = true
   machine_type = "e2-micro"
   zone = "us-central1-a"
   tags = ["t1","t2"]
-   }
+   },
 
    # Second VM.
    # 1
