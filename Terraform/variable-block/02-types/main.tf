@@ -46,9 +46,9 @@ resource "google_compute_firewall" "tf_http" {
 }
 
 resource "google_compute_instance" "tf_gce_vm" {
-  name         = var.vm_list[0].name
-  machine_type = var.vm_list[0].machine_type
-  zone         = var.vm_list[0].zone
+  name         = var.vm_list[1].name
+  machine_type = var.vm_list[1].machine_type
+  zone         = var.vm_list[1].zone
 
   boot_disk {
     initialize_params {
