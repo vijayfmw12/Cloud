@@ -62,4 +62,10 @@ variable "enable_startup_script" {
   description = "Whether to enable startup script"
   # default = false
   default = true  
+} 
+
+variable "vm_network_tags" {
+  type = list(string)
+  description = "GCE NW Tags"       // list of strings
+  default = ["ssh-nw-tag", "ws-nw-tag"]
 }
