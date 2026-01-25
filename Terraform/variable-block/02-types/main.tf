@@ -46,9 +46,9 @@ resource "google_compute_firewall" "tf_http" {
 }
 
 resource "google_compute_instance" "tf_gce_vm" {
-  name         = var.vm_configuration.name
-  machine_type = var.vm_configuration.machine_type
-  zone         = var.vm_configuration.zone
+  name         = var.vm_list[0].name
+  machine_type = var.vm_list[0].machine_type
+  zone         = var.vm_list[0].zone
 
   boot_disk {
     initialize_params {
@@ -69,6 +69,6 @@ metadata_startup_script = var.enable_startup_script ? file("${path.module}/start
   }
 
   # tags = ["ssh-nw-tag", "ws-nw-tag"]
-  tags = var.vm_configuration.tags
+  tags = var.vm_list[0].tags
  }
 
