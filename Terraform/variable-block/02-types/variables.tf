@@ -75,7 +75,7 @@ variable "environment" {
     default = "dev"
 }
 
-variable "machine_type" {
+variable "machine_types" {
     type = map(string)
     default = {
       dev = "e2-small"
