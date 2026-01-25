@@ -4,7 +4,6 @@ provider "google" {
 }
 
 resource "google_compute_instance" "mw-vm" {
-	name = "prod-vm"
 	machine_type = var.machine_type
 	zone = var.vm_zone
 
