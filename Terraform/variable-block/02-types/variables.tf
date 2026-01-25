@@ -67,5 +67,19 @@ variable "enable_startup_script" {
 variable "vm_network_tags" {
   type = list(string)
   description = "GCE NW Tags"       // list of strings
-  default = ["ssh-nw-tag", "ws-nw-tag"]
+  default = ["ssh-nw-tag", "ws-nw-tag"] 
+}
+
+variable "environment" {
+    type = string
+    default = "dev"
+}
+
+variable "machine_type" {
+    type = map(string)
+    default = {
+      dev = "e2-small"
+      stage = "e2-micro" 
+      prod = "n2-standard-2"
+    }
 }
