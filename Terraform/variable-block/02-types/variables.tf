@@ -61,5 +61,5 @@ variable "enable_startup_script" {
   type = bool
   description = "Whether to enable startup script"
   default = false
-  # default = true
+  # default = true  
 }
