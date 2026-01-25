@@ -103,6 +103,7 @@ default = {
 
 variable "vm_list" = [
    # First VM.
+   # 0
    {
   name = "vm1"
   machine_type = "e2-micro"
@@ -111,6 +112,7 @@ variable "vm_list" = [
    }
 
    # Second VM.
+   # 1
    {
   name = "vm2"
   machine_type = "e2-medium"
