@@ -1,0 +1,16 @@
+Role:
+Name:
+Descripton:
+ID:
+Role launch stage: GA
+add permissions: 10+ permissions
+
+iam:
+grant access: 
+add principals:
+new prinicpasl: hariforcloud@gmail.com
+
+assign roles: 
+role: task01-custom-role
+
+"Create"
