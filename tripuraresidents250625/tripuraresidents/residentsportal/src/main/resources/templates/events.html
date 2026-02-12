@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Events - Tripura Homes</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+
+    <!-- JS -->
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+
+<!-- ✅ Navbar Fragment -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- ✅ Page Content -->
+<div class="container mt-4">
+    <h2>🎉 Community Events</h2>
+    <p>
+        Check here for upcoming events, celebrations, and past community gatherings at Tripura Homes.
+    </p>
+
+    <div class="mt-3">
+        <ul>
+            <li>🪔 <strong>Diwali Celebrations 2024</strong> – Lights, Rangoli, and Cultural Programs</li>
+            <li>🎅 <strong>Christmas & New Year Bash</strong> – Secret Santa, Cake Cutting</li>
+            <li>🎓 <strong>Children’s Day</strong> – Drawing Competition & Games</li>
+            <li>🌳 <strong>Green Drive</strong> – Tree Plantation and Clean-up Activities</li>
+        </ul>
+    </div>
+</div>
+
+<!-- ✅ Footer Fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

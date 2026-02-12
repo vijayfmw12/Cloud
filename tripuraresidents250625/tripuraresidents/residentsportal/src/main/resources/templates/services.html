@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Services - Tripura Homes</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+
+    <!-- JS -->
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+
+<!-- ✅ Navbar Fragment -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- ✅ Page Content -->
+<div class="container mt-4">
+    <h2>🛠️ Resident Services</h2>
+    <p>
+        Tripura Homes provides essential services to all residents to ensure comfortable living.
+        Below is a summary of active services and facilities managed by the community.
+    </p>
+
+    <ul>
+        <li>💡 <strong>Electricity:</strong> Supplied with dual transformers and street lighting throughout the colony.</li>
+        <li>💧 <strong>Water Supply:</strong> Two borewells and a central water tank, with planned Manjeera water connection.</li>
+        <li>🧹 <strong>Waste Management:</strong> Regular garbage collection and drainage maintenance.</li>
+        <li>🛠️ <strong>Maintenance:</strong> Monthly services and watchman-led support for public areas.</li>
+        <li>🌐 <strong>Security:</strong> Dedicated 24x7 security guard and monitoring.</li>
+    </ul>
+</div>
+
+<!-- ✅ Footer Fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Contact Us</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<section class="container">
+    <h2>Contact Our Association Members</h2>
+
+    <!-- President -->
+    <div class="contact-card">
+        <button class="title-btn">President</button>
+        <div class="contact-details" th:if="${president != null}">
+            <p><strong>Name:</strong> <span th:text="${president.ownerName}"></span></p>
+            <p><strong>Flat:</strong> <span th:text="${president.flatNo}"></span></p>
+            <p><strong>Contact:</strong> <span th:text="${president.contactNo}"></span></p>
+        </div>
+    </div>
+
+    <!-- Vice President -->
+    <div class="contact-card">
+        <button class="title-btn">Vice President</button>
+        <div class="contact-details" th:if="${vicePresident != null}">
+            <p><strong>Name:</strong> <span th:text="${vicePresident.ownerName}"></span></p>
+            <p><strong>Flat:</strong> <span th:text="${vicePresident.flatNo}"></span></p>
+            <p><strong>Contact:</strong> <span th:text="${vicePresident.contactNo}"></span></p>
+        </div>
+    </div>
+
+    <!-- General Secretary -->
+    <div class="contact-card">
+        <button class="title-btn">General Secretary</button>
+        <div class="contact-details" th:if="${generalSecretary != null}">
+            <p><strong>Name:</strong> <span th:text="${generalSecretary.ownerName}"></span></p>
+            <p><strong>Flat:</strong> <span th:text="${generalSecretary.flatNo}"></span></p>
+            <p><strong>Contact:</strong> <span th:text="${generalSecretary.contactNo}"></span></p>
+        </div>
+    </div>
+
+    <!-- Joint Secretary -->
+    <div class="contact-card">
+        <button class="title-btn">Joint Secretary</button>
+        <div class="contact-details" th:if="${jointSecretary != null}">
+            <p><strong>Name:</strong> <span th:text="${jointSecretary.ownerName}"></span></p>
+            <p><strong>Flat:</strong> <span th:text="${jointSecretary.flatNo}"></span></p>
+            <p><strong>Contact:</strong> <span th:text="${jointSecretary.contactNo}"></span></p>
+        </div>
+    </div>
+
+    <!-- Treasurer -->
+    <div class="contact-card">
+        <button class="title-btn">Treasurer</button>
+        <div class="contact-details" th:if="${treasurer != null}">
+            <p><strong>Name:</strong> <span th:text="${treasurer.ownerName}"></span></p>
+            <p><strong>Flat:</strong> <span th:text="${treasurer.flatNo}"></span></p>
+            <p><strong>Contact:</strong> <span th:text="${treasurer.contactNo}"></span></p>
+        </div>
+    </div>
+
+    <!-- Executive Members -->
+    <div class="contact-card">
+        <button class="title-btn">Executive Members</button>
+        <div class="contact-details">
+            <ul>
+                <li th:each="exec : ${executives}">
+                    <span th:text="${exec.ownerName}"></span> (Flat: <span th:text="${exec.flatNo}"></span>, Contact: <span th:text="${exec.contactNo}"></span>)
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Watchman -->
+    <div class="contact-card">
+        <button class="title-btn">Watchman</button>
+        <div class="contact-details">
+            <p><strong>Phone 1:</strong> <span th:text="${watchmanPhone1}"></span></p>
+            <p><strong>Phone 2:</strong> <span th:text="${watchmanPhone2}"></span></p>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

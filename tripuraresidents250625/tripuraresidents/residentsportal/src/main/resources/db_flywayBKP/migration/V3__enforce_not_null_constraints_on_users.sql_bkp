@@ -1,0 +1,8 @@
+-- Ensure there are no null values before applying NOT NULL constraints
+UPDATE users SET enabled = FALSE WHERE enabled IS NULL;
+UPDATE users SET password = 'changeme123' WHERE password IS NULL;
+
+-- Now safely apply the NOT NULL constraints
+ALTER TABLE users ALTER COLUMN enabled SET NOT NULL;
+ALTER TABLE users ALTER COLUMN password SET NOT NULL;
+
